@@ -1,5 +1,5 @@
 # CS50 AI 
-Mine solutions for CS50's Introduction to Artificial Intelligence with Python course
+Updated solutions for CS50's Introduction to Artificial Intelligence with Python course
 
 *Warning : before visiting this repo files, please read about [CS50's Academic Honesty rules](https://cs50.harvard.edu/college/2021/fall/syllabus/#academic-honesty)*.
 

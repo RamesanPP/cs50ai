@@ -31,7 +31,6 @@ def load_data(directory):
             else:
                 names[row["name"].lower()].add(row["id"])
 
-
     # Load movies
     with open(f"{directory}/movies.csv", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -116,7 +115,6 @@ def shortest_path(source, target):
             return rt
 
         explored.add(node.state)
-
 
         # find neighbours
         neighbours = neighbors_for_person(node.state)

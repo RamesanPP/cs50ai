@@ -47,7 +47,7 @@ def actions(board):
         for column_index, item in enumerate(row):
             if item == None:
                 possible_moves.add((row_index, column_index))
-    
+
     return possible_moves
 
 
@@ -74,24 +74,24 @@ def winner(board):
     """
     for player in (X, O):
         # check vertical
-            for row in board:
-                if row == [player] * 3:
-                    return player
+        for row in board:
+            if row == [player] * 3:
+                return player
 
         # check horizontal
-            for i in range(3):
-                column = [board[x][i] for x in range(3)]
-                if column == [player] * 3:
-                    return player
-        
-        # check diagonal
-            if [board[i][i] for i in range(0, 3)] == [player] * 3:
+        for i in range(3):
+            column = [board[x][i] for x in range(3)]
+            if column == [player] * 3:
                 return player
 
-            elif [board[i][~i] for i in range(0, 3)] == [player] * 3:
-                return player
+        # check diagonal
+        if [board[i][i] for i in range(0, 3)] == [player] * 3:
+            return player
+
+        elif [board[i][~i] for i in range(0, 3)] == [player] * 3:
+            return player
     return None
-                               
+
 
 def terminal(board):
     """

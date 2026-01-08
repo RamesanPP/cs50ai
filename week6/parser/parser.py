@@ -1,6 +1,5 @@
 import nltk
 import sys
-import string
 
 TERMINALS = """
 Adj -> "country" | "dreadful" | "enigmatical" | "little" | "moist" | "red"
@@ -16,31 +15,26 @@ V -> "smiled" | "tell" | "were"
 """
 
 NONTERMINALS = """
-S -> PART | PART Conj PART
-PART -> NP VP | NP Adv VP | VP
-NP -> N | NA N 
-NA -> Det | Adj | NA NA
-VP -> V | V SUPP
-SUPP -> NP | P | Adv | SUPP SUPP | SUPP SUPP SUPP
+S -> NP VP | NP VP Conj NP VP | NP VP Conj VP
+NP -> N | Det N | Det AP N | P NP | NP P NP
+VP -> V | Adv VP | V Adv | VP NP | V NP Adv
+AP -> Adj | AP Adj
 """
+
 grammar = nltk.CFG.fromstring(NONTERMINALS + TERMINALS)
 parser = nltk.ChartParser(grammar)
 
 
 def main():
-
     # If filename specified, read sentence from file
     if len(sys.argv) == 2:
         with open(sys.argv[1]) as f:
             s = f.read()
-
     # Otherwise, get sentence as input
     else:
         s = input("Sentence: ")
-
     # Convert input into list of words
     s = preprocess(s)
-
     # Attempt to parse sentence
     try:
         trees = list(parser.parse(s))
@@ -50,11 +44,9 @@ def main():
     if not trees:
         print("Could not parse sentence.")
         return
-
     # Print each tree with noun phrase chunks
     for tree in trees:
         tree.pretty_print()
-
         print("Noun Phrase Chunks")
         for np in np_chunk(tree):
             print(" ".join(np.flatten()))
@@ -67,9 +59,8 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-
-    tokenized = nltk.tokenize.word_tokenize(sentence)
-    return [x.lower() for x in tokenized if x.isalpha()]
+    tokens = nltk.word_tokenize(sentence.lower())
+    return [word for word in tokens if any(char.isalpha() for char in word)]
 
 
 def np_chunk(tree):
@@ -79,13 +70,13 @@ def np_chunk(tree):
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    retlst = []
-
+    chunks = []
     for subtree in tree.subtrees():
         if subtree.label() == "NP":
-            retlst.append(subtree)
-
-    return retlst
+            # Check for any other NP in its descendants
+            if not any(s.label() == "NP" and s is not subtree for s in subtree.subtrees()):
+                chunks.append(subtree)
+    return chunks
 
 
 if __name__ == "__main__":

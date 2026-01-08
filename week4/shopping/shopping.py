@@ -91,7 +91,8 @@ def load_data(filename):
     evidence_df = evidence_df.replace(months)
 
     # replace boolean with 0/1 values
-    evidence_df['VisitorType'] = evidence_df['VisitorType'].apply(lambda x: 1 if x == 'Returning_Visitor' else 0)
+    evidence_df['VisitorType'] = evidence_df['VisitorType'].apply(
+        lambda x: 1 if x == 'Returning_Visitor' else 0)
     evidence_df['Weekend'] = evidence_df['Weekend'].apply(lambda x: 1 if x == 'True' else 0)
     labels_df = labels_df.apply(lambda x: 1 if x is True else 0)
 

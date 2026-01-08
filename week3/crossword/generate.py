@@ -146,7 +146,8 @@ class CrosswordCreator():
                 if matched_value:
                     continue   # if x and y was matched, proceed with another x
                 else:
-                    self.domains[x].remove(xword) # no matching y's word to x, removing word from domain
+                    # no matching y's word to x, removing word from domain
+                    self.domains[x].remove(xword)
                     revision_made = True
 
         # return bolean if revision was made
@@ -273,7 +274,7 @@ class CrosswordCreator():
                 choice_dict[variable] = self.domains[variable]
 
         # make list of variables sorted by number of remaining values
-        sorted_list = [v for v, k in sorted(choice_dict.items(), key=lambda item:len(item[1]))]
+        sorted_list = [v for v, k in sorted(choice_dict.items(), key=lambda item: len(item[1]))]
 
         # return variable with the minimum number of remaining values
         return sorted_list[0]
